@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Modal from './Modal';
 
    interface SessionItem {
         id: string;
@@ -9,6 +10,15 @@ import { useState } from 'react';
    const Sessions = () => {
      const [sessions, setSessions] = useState<SessionItem[]>([]);
      const [newSessionResult, setNewSessionResult] = useState('');
+     const [isCreateSessionModalOpen, setIsCreateSessionModalOpen] = useState(false);
+
+     const handleOpenModal = () => {
+      setIsCreateSessionModalOpen(true);
+    };
+  
+    const handleCloseModal = () => {
+      setIsCreateSessionModalOpen(false);
+    };
 
      const addSession = () => {
        if (newSessionResult !== '') {
@@ -33,7 +43,7 @@ import { useState } from 'react';
 
      return (
        <div>
-         <h1 className="text-3xl font-bold underline flex flex-row  justify-center">Poker Tracker App</h1>
+         <h1 className="text-3xl font-bold underline flex flex-row  justify-center">Poker Bankroll Tracker</h1>
          <input
           className=" my-2 bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
            type="text"
@@ -41,7 +51,7 @@ import { useState } from 'react';
            onChange={(e) => setNewSessionResult(e.target.value)}
          />
          <div className='flex flex-row  justify-center'>
-          <button className='my-2 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded' onClick={addSession}>Add Session</button>
+          <button className='my-2 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded' onClick={handleOpenModal}>Add Session</button>
         </div>
          <ul className='my-4'>
            {sessions.map((session) => (
@@ -57,6 +67,10 @@ import { useState } from 'react';
              </li>
            ))}
          </ul>
+         <Modal isOpen={isCreateSessionModalOpen} onClose={handleCloseModal}>
+            <h2>test</h2>
+            <p>test</p>
+          </Modal>
        </div>
      );
    };
