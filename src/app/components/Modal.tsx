@@ -11,6 +11,7 @@ import {
 import { DateTimePicker } from '@/components/ui/dateTimePicker';
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
+import { Button } from '@/components/ui/button';
 
 
 
@@ -69,6 +70,9 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose,  children}) => {
         </div>
       
       </CardContent>
+      <CardFooter>
+      <button className='my-2 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded' >Add Session</button>
+      </CardFooter>
    </Card>
       
   );
