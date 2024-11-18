@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import Modal from './Modal';
 
+import { Button } from "@/components/ui/button"
+
    interface SessionItem {
         id: string;
         result: number;
@@ -50,9 +52,13 @@ import Modal from './Modal';
            value={newSessionResult}
            onChange={(e) => setNewSessionResult(e.target.value)}
          />
+         <div>
+         <Button>Click me</Button>
+        </div>
          <div className='flex flex-row  justify-center'>
           <button className='my-2 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded' onClick={handleOpenModal}>Add Session</button>
         </div>
+        
          <ul className='my-4'>
            {sessions.map((session) => (
              <li className='my-3' key={session.id} >
@@ -68,7 +74,7 @@ import Modal from './Modal';
            ))}
          </ul>
          <Modal isOpen={isCreateSessionModalOpen} onClose={handleCloseModal}>
-            <h2>test</h2>
+            <h1>testtesttesttesttesttesttesttesttesttesttest</h1>
             <p>test</p>
           </Modal>
        </div>
