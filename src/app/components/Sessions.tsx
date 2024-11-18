@@ -67,8 +67,7 @@ import Modal from './Modal';
          </div>
          <div className='w-2/3 justify-self-center'>
           <Modal  isOpen={isCreateSessionModalOpen}  onClose={handleCloseModal}>
-            <></>
-            </Modal>
+          </Modal>
           </div>
        </div>
      );
