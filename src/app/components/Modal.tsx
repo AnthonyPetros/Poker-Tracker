@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -11,7 +10,6 @@ import {
 import { DateTimePicker } from '@/components/ui/dateTimePicker';
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
-import { Button } from '@/components/ui/button';
 
 
 
@@ -19,14 +17,13 @@ import { Button } from '@/components/ui/button';
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  children: React.ReactNode;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose,  children}) => {
-  if (!isOpen) return null;
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose}) => {
+ 
   const [date12Start, setDate12Start] = useState<Date | undefined>(undefined);
   const [date12End, setDate12End] = useState<Date | undefined>(undefined);
-
+  if (!isOpen) return null;
   return (
    <Card>
     <CardHeader className='grid grid-cols-2 bg-blue-300'>     

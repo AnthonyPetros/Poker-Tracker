@@ -1,16 +1,6 @@
 import { useState } from 'react';
 import Modal from './Modal';
 
-import { Button } from "@/components/ui/button"
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
 
    interface SessionItem {
         id: string;
@@ -31,12 +21,11 @@ import {
       setIsCreateSessionModalOpen(false);
     };
 
-     const addSession = () => {
+     /*const addSession = () => {
        if (newSessionResult !== '') {
          const newId = crypto.randomUUID();
-         let res = parseInt(newSessionResult)
-         let wonBool =  res> 0; 
-         console.log(wonBool);
+         const res = parseInt(newSessionResult)
+         const wonBool =  res> 0; 
          const newSessionItem: SessionItem = {
            id: newId,
            result: res,
@@ -45,7 +34,7 @@ import {
          setSessions([...sessions, newSessionItem]);
          setNewSessionResult('');
        }
-     };
+     }; */
 
      const removeSession = (id: string) => {
        const updatedSessions = sessions.filter((session) => session.id !== id);
