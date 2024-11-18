@@ -45,7 +45,7 @@ import { useState } from 'react';
         </div>
          <ul className='my-4'>
            {sessions.map((session) => (
-             <li key={session.id} >
+             <li className='my-3' key={session.id} >
                 <div className='flex flex-row  justify-center'>
                   <div className=' hover:ring-4 ring-offset-2 ring-2 w-1/3 rounded'>
                     <span className={session.won ? 'text-green-500 font-bold px-4' : 'text-red-500 font-bold px-4' }>
