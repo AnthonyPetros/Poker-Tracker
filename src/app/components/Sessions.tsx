@@ -10,7 +10,7 @@ import Modal from './Modal';
 
    const Sessions = () => {
      const [sessions, setSessions] = useState<SessionItem[]>([]);
-     const [newSessionResult, setNewSessionResult] = useState('');
+     //const [newSessionResult, setNewSessionResult] = useState('');
      const [isCreateSessionModalOpen, setIsCreateSessionModalOpen] = useState(false);
 
      const handleOpenModal = () => {
