@@ -21,9 +21,10 @@ import { v4 } from "uuid";
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
+  handleCloseModalAdd: (session: SessionItem) => void;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose}) => {
+const Modal: React.FC<ModalProps> = ({isOpen, onClose, handleCloseModalAdd}) => {
  
   const [date12Start, setDate12Start] = useState<Date | undefined>(undefined);
   const [date12End, setDate12End] = useState<Date | undefined>(undefined);
@@ -51,7 +52,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose}) => {
       setNewSessionLocation('');
       setDate12End(undefined);
       setDate12Start(undefined);
-      onClose();
+      handleCloseModalAdd(newSessionItem);
   };
   
   if (!isOpen) return null;
@@ -67,6 +68,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose}) => {
         </button>
       </div>
     </CardHeader>
+      
       <CardContent className='grid grid-cols-2 gap-1.5'>
         <div>
           <Label htmlFor="buyIn">Buy In:</Label>
