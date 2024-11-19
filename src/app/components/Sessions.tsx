@@ -2,11 +2,8 @@ import { useState } from 'react';
 import Modal from './Modal';
 
 
-   interface SessionItem {
-        id: string;
-        result: number;
-        won: boolean;
-      }
+import { SessionItem } from '../interfaces/sessionItem';
+
 
    const Sessions = () => {
      const [sessions, setSessions] = useState<SessionItem[]>([]);
@@ -20,21 +17,6 @@ import Modal from './Modal';
     const handleCloseModal = () => {
       setIsCreateSessionModalOpen(false);
     };
-
-     /*const addSession = () => {
-       if (newSessionResult !== '') {
-         const newId = crypto.randomUUID();
-         const res = parseInt(newSessionResult)
-         const wonBool =  res> 0; 
-         const newSessionItem: SessionItem = {
-           id: newId,
-           result: res,
-           won: wonBool
-         };
-         setSessions([...sessions, newSessionItem]);
-         setNewSessionResult('');
-       }
-     }; */
 
      const removeSession = (id: string) => {
        const updatedSessions = sessions.filter((session) => session.id !== id);
@@ -55,8 +37,8 @@ import Modal from './Modal';
               <li className='my-3' key={session.id} >
                   <div className='flex flex-row  justify-center'>
                     <div className=' hover:ring-4 ring-offset-2 ring-2 w-1/3 rounded'>
-                      <span className={session.won ? 'text-green-500 font-bold px-4' : 'text-red-500 font-bold px-4' }>
-                        Result: {session.result}
+                      <span className={(session.cashOut - session.buyIn)>=0  ? 'text-green-500 font-bold px-4' : 'text-red-500 font-bold px-4' }>
+                        Result: {session.cashOut - session.buyIn}
                       </span>
                       <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={() => removeSession(session.id)}>Remove</button>
                   </div>
