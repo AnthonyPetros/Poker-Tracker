@@ -44,6 +44,14 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose}) => {
         location:newSessionLocation
       };
       postPokerSessionData(newSessionItem);
+      setNewSessionBuyIn('');
+      setNewSessionCashOut('');
+      setNewSessionStakes('');
+      setNewSessionGameType('');
+      setNewSessionLocation('');
+      setDate12End(undefined);
+      setDate12Start(undefined);
+      onClose();
   };
   
   if (!isOpen) return null;

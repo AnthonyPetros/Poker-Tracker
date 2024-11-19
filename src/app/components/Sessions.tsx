@@ -7,7 +7,6 @@ import { SessionItem } from '../interfaces/sessionItem';
 
    const Sessions = () => {
      const [sessions, setSessions] = useState<SessionItem[]>([]);
-     //const [newSessionResult, setNewSessionResult] = useState('');
      const [isCreateSessionModalOpen, setIsCreateSessionModalOpen] = useState(false);
 
      const handleOpenModal = () => {
