@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Modal from './Modal';
-
+import {getAllSessionData} from '@/lib/sessionData';
 
 import { SessionItem } from '../interfaces/sessionItem';
 
@@ -22,8 +22,16 @@ import { SessionItem } from '../interfaces/sessionItem';
        setSessions(updatedSessions);
      };
 
+     const getSessions = () => {
+      getAllSessionData().then((response) =>
+        //console.log(JSON.parse(response))
+        setSessions(JSON.parse(response))
+      );
+     }
+
      return (
        <div>
+        <button onClick={getSessions}> 123</button>
         <div className={isCreateSessionModalOpen ? 'blur':''}>
           <h1 className="text-3xl font-bold underline flex flex-row  justify-center">Poker Bankroll Tracker</h1>
           
@@ -36,8 +44,8 @@ import { SessionItem } from '../interfaces/sessionItem';
               <li className='my-3' key={session.id} >
                   <div className='flex flex-row  justify-center'>
                     <div className=' hover:ring-4 ring-offset-2 ring-2 w-1/3 rounded'>
-                      <span className={(session.cashOut - session.buyIn)>=0  ? 'text-green-500 font-bold px-4' : 'text-red-500 font-bold px-4' }>
-                        Result: {session.cashOut - session.buyIn}
+                      <span className={(session.cash - session.buy)>=0  ? 'text-green-500 font-bold px-4' : 'text-red-500 font-bold px-4' }>
+                        Result: {session.cash - session.buy}
                       </span>
                       <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={() => removeSession(session.id)}>Remove</button>
                   </div>

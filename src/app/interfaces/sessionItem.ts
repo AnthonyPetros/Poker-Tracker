@@ -1,10 +1,10 @@
-export interface SessionItem {
+export type SessionItem {
     id: string;
-    buyIn: number;
-    cashOut: number;
+    buy: number;
+    cash: number;
     stakes: string;
-    gameType: string;
+    type: string;
     location: string;
-    start: Date;
-    end: Date;
+    stime: Date;
+    etime: Date;
   }

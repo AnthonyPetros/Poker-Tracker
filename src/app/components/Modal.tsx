@@ -35,12 +35,12 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose}) => {
   const addSession = () => {
       const newSessionItem: SessionItem = {
         id: v4(),
-        start: date12Start!,
-        end: date12End!,
-        buyIn:parseInt(newSessionBuyIn),
-        cashOut:parseInt(newSessionCashOut),
+        stime: date12Start!,
+        etime: date12End!,
+        buy:parseInt(newSessionBuyIn),
+        cash:parseInt(newSessionCashOut),
         stakes:newSessionStakes,
-        gameType:newSessionGameType,
+        type:newSessionGameType,
         location:newSessionLocation
       };
       postPokerSessionData(newSessionItem);

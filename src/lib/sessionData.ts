@@ -10,7 +10,13 @@ export async function getData() {
 
 export async function postPokerSessionData(session: SessionItem){
     const db = neon(process.env.DATABASE_URL!);
-    await db(`INSERT INTO poker_sessions (id,buy_in,cash_out,start_time,end_time,stakes,game_type,location)
-    values($1,$2,$3,$4,$5,$6,$7,$8)`,[session.id,session.buyIn,session.cashOut,session.start,session.end,session.stakes,session.gameType,session.location]);
+    await db(`INSERT INTO poker_sessions (id,buy,cash,stime,etime,stakes,type,location)
+    values($1,$2,$3,$4,$5,$6,$7,$8)`,[session.id,session.buy,session.cash,session.stime,session.etime,session.stakes,session.type,session.location]);
+}
+
+export async function getAllSessionData(){
+    const sql = neon(process.env.DATABASE_URL!);
+    let res = await sql`SELECT * from poker_sessions`;
+    return JSON.stringify(res);
 }
 
