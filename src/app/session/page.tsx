@@ -57,6 +57,7 @@ import {
   const deleteSession = () => {
     if(session){
       deleteSessionDataById(session.id);
+      console.log("123");
       router.push('/');
    }
   }
