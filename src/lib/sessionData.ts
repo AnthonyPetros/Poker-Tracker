@@ -20,3 +20,12 @@ export async function getAllSessionData(){
     return JSON.stringify(res);
 }
 
+export async function getSessionDataById(id: string){
+   const h = id;
+   console.log(h);
+    const sql = neon(process.env.DATABASE_URL!);
+    let res = await sql`SELECT * from poker_sessions where id = ${h}`; 
+    console.log(res);
+    return JSON.stringify(res);
+}
+

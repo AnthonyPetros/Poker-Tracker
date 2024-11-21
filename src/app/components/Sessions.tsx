@@ -39,9 +39,9 @@ import Link from 'next/link';
           </div>
           
           <ul className='my-4'>
-            {sessions.map((session) => (
-              <Link href='/session'>
+            {sessions.map((session) => (  
                 <li className='my-3' key={session.id} >
+                  <Link href={{pathname:'/session', query: { id: session.id }}}>
                     <div className='flex flex-row  justify-center'>
                       <div className=' hover:ring-4 ring-offset-2 ring-2 w-1/2 rounded'>
                         <span className={(session.cash - session.buy)>=0  ? 'text-green-500 font-bold px-4' : 'text-red-500 font-bold px-4' }>
@@ -64,8 +64,8 @@ import Link from 'next/link';
                         </span>
                     </div>
                   </div>
+                  </Link>
                 </li>
-              </Link>
             ))}
           </ul>
          </div>
