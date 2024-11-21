@@ -15,7 +15,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
     
-    const session = () => {
+    const Session = () => {
       const searchParams = useSearchParams();
       const router = useRouter();
       const [session, setSession] = useState<SessionItem | null>(null);
@@ -114,4 +114,4 @@ import {
      </Card> ))
   }
 
-  export default session;
+  export default Session;

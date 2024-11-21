@@ -1,4 +1,4 @@
-export type SessionItem {
+export type SessionItem = {
     id: string;
     buy: number;
     cash: number;

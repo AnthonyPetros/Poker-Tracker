@@ -16,13 +16,13 @@ export async function postPokerSessionData(session: SessionItem){
 
 export async function getAllSessionData(){
     const sql = neon(process.env.DATABASE_URL!);
-    let res = await sql`SELECT * from poker_sessions order by etime desc`;
+    const res = await sql`SELECT * from poker_sessions order by etime desc`;
     return JSON.stringify(res);
 }
 
 export async function getSessionDataById(id: string){
     const sql = neon(process.env.DATABASE_URL!);
-    let res = await sql`SELECT * from poker_sessions where id = ${id}`; 
+    const res = await sql`SELECT * from poker_sessions where id = ${id}`; 
     return JSON.stringify(res);
 }
 
