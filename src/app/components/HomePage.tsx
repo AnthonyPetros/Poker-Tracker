@@ -4,14 +4,14 @@ import {getAllSessionData} from '@/lib/sessionData';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs" 
 import { SessionItem } from '../interfaces/sessionItem';
 import Link from 'next/link';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
 
    const HomePage = () => {
      const [sessions, setSessions] = useState<SessionItem[]>([]);
      const [isCreateSessionModalOpen, setIsCreateSessionModalOpen] = useState(false);
-     let [minDate, setMinDate] = useState(new Date(Date.now()).getTime());
-     let [maxDate, setMaxDate] = useState(0);
+     let [minDate] = useState(new Date(Date.now()).getTime());
+     let [maxDate] = useState(0);
    
 
      const handleOpenModal = () => {
@@ -36,7 +36,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
     useEffect(() => {
       let cumResults = 0;
       sessions.toReversed().map((session) => {
-        let currDate = new Date(session.etime).getTime();
+        const currDate = new Date(session.etime).getTime();
         session.result = session.cash - session.buy;
         session.cumResult = session.result + cumResults;
         cumResults = session.cumResult;
@@ -47,10 +47,10 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
       });
     },[sessions])
     const formatXAxis = (tickFormat: number) => {
-      var curr = new Date(tickFormat);
-      var dd = String(curr.getDate()).padStart(2, '0');
-      var mm = String(curr.getMonth() + 1).padStart(2, '0'); //January is 0!
-      var yyyy = curr.getFullYear();
+      const curr = new Date(tickFormat);
+      const dd = String(curr.getDate()).padStart(2, '0');
+      const mm = String(curr.getMonth() + 1).padStart(2, '0'); //January is 0!
+      const yyyy = curr.getFullYear();
       
       return mm + '/' + dd + '/' + yyyy;
       
