@@ -42,7 +42,10 @@ const Modal: React.FC<ModalProps> = ({isOpen, onClose, handleCloseModalAdd}) => 
         cash:parseInt(newSessionCashOut),
         stakes:newSessionStakes,
         type:newSessionGameType,
-        location:newSessionLocation
+        location:newSessionLocation,
+        result: 0,
+        graphDate: 0,
+        cumResult: 0,
       };
       postPokerSessionData(newSessionItem);
       setNewSessionBuyIn('');
