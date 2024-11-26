@@ -1,10 +1,11 @@
 "use client"
-import Sessions from './components/Sessions';
+
+import HomePage from "./components/HomePage";
 
    function App() {
      return (
        <div className="App">
-         <Sessions />
+         <HomePage/>
        </div>
      );
    }

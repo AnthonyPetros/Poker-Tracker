@@ -7,4 +7,7 @@ export type SessionItem = {
     location: string;
     stime: Date;
     etime: Date;
+    result: number;
+    graphDate: number;
+    cumResult: number;
   }

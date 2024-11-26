@@ -1,15 +1,18 @@
 import { useState, useEffect } from 'react';
 import Modal from './Modal';
 import {getAllSessionData} from '@/lib/sessionData';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs" 
 import { SessionItem } from '../interfaces/sessionItem';
 import Link from 'next/link';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 
-   const Sessions = () => {
+   const HomePage = () => {
      const [sessions, setSessions] = useState<SessionItem[]>([]);
      const [isCreateSessionModalOpen, setIsCreateSessionModalOpen] = useState(false);
+     let [minDate, setMinDate] = useState(new Date(Date.now()).getTime());
+     let [maxDate, setMaxDate] = useState(0);
+   
 
      const handleOpenModal = () => {
       setIsCreateSessionModalOpen(true);
@@ -30,6 +33,28 @@ import Link from 'next/link';
       );
     }, []);
 
+    useEffect(() => {
+      let cumResults = 0;
+      sessions.toReversed().map((session) => {
+        let currDate = new Date(session.etime).getTime();
+        session.result = session.cash - session.buy;
+        session.cumResult = session.result + cumResults;
+        cumResults = session.cumResult;
+        session.graphDate = currDate;
+        minDate = Math.min(minDate,currDate);
+        maxDate = Math.max(maxDate,currDate);
+        console.log(currDate);
+      });
+    },[sessions])
+    const formatXAxis = (tickFormat: number) => {
+      var curr = new Date(tickFormat);
+      var dd = String(curr.getDate()).padStart(2, '0');
+      var mm = String(curr.getMonth() + 1).padStart(2, '0'); //January is 0!
+      var yyyy = curr.getFullYear();
+      
+      return mm + '/' + dd + '/' + yyyy;
+      
+    };
      return (
        <div>
         <Tabs defaultValue="sessions">
@@ -77,6 +102,16 @@ import Link from 'next/link';
             </ul>
           </div>
          </TabsContent>
+         <TabsContent value="stats">
+          <LineChart width={500} height={500} data={sessions}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="graphDate" type="number" scale={'time'} domain={[minDate, maxDate]} tickFormatter={(tick) => formatXAxis(tick)}/>
+            <YAxis />
+            <Tooltip labelFormatter={(tick) => formatXAxis(tick)} />
+            <Legend />
+            <Line type="monotone" dataKey="cumResult" stroke="#8884d8" activeDot={{ r: 8 }} />
+          </LineChart>
+         </TabsContent>
          </Tabs>
          <div className='w-2/3 justify-self-center'>
           <Modal  isOpen={isCreateSessionModalOpen}  onClose={handleCloseModal} handleCloseModalAdd={handleCloseModalAdd}>
@@ -86,4 +121,4 @@ import Link from 'next/link';
      );
    };
 
-   export default Sessions;
+   export default HomePage;
