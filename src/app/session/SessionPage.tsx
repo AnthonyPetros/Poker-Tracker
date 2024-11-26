@@ -50,7 +50,10 @@ import {
         cash:newSessionCashOut,
         stakes:newSessionStakes,
         type:newSessionGameType,
-        location:newSessionLocation
+        location:newSessionLocation,
+        result: 0,
+        graphDate: 0,
+        cumResult: 0,
       };
       editSessionData(newSessionItem);
       router.push('/');
