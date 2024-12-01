@@ -43,7 +43,7 @@ const stakes = [
 ]
 
 interface props {
-    onChange?: (stakes: String | undefined) => void;
+    onChange?: (stakes: string) => void;
   }
   
 const StakesPicker: React.FC<props> = ({ onChange }) => {
