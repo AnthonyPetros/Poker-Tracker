@@ -15,7 +15,7 @@ import { Label } from "@/components/ui/label"
 import {postPokerSessionData} from "@/lib/sessionData";
 import { SessionItem } from '../interfaces/sessionItem';
 import { v4 } from "uuid";
-
+import StakesPicker from "./Custom/StakesPicker"
 
 
 interface ModalProps {
@@ -91,7 +91,7 @@ const Modal: React.FC<ModalProps> = ({isOpen, onClose, handleCloseModalAdd}) => 
         </div>
         <div>
           <Label htmlFor="stakes">Stakes:</Label>
-          <Textarea id="stakes" className='h-10' placeholder="What Stakes were played" onChange={(e) => setNewSessionStakes(e.target.value)}></Textarea>
+          <StakesPicker onChange={setNewSessionStakes}></StakesPicker>
         </div>
         <div>
           <Label htmlFor="game">Game Type:</Label>
