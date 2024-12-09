@@ -4,7 +4,8 @@ import {getAllSessionData} from '@/lib/sessionData';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs" 
 import { SessionItem } from '../interfaces/sessionItem';
 import Link from 'next/link';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { ResponsiveContainer ,LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { Label } from '@radix-ui/react-label';
 
 
    const HomePage = () => {
@@ -12,7 +13,11 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'r
      const [isCreateSessionModalOpen, setIsCreateSessionModalOpen] = useState(false);
      let [minDate] = useState(new Date(Date.now()).getTime());
      let [maxDate] = useState(0);
-   
+     let [cumResultsState, setCumResultsState] = useState(0);
+     let [cumHours, setCumHours] = useState(0);
+     let [cumBB, setCumBB] = useState(0);
+    
+    
 
      const handleOpenModal = () => {
       setIsCreateSessionModalOpen(true);
@@ -35,16 +40,26 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'r
 
     useEffect(() => {
       let cumResults = 0;
+      let cHours = 0;
+      let cBB = 0;
       sessions.toReversed().map((session) => {
+        const bb = session.stakes.split("/").toReversed()[0]
         const currDate = new Date(session.etime).getTime();
+        const startDate = new Date(session.stime).getTime();
         session.result = session.cash - session.buy;
         session.cumResult = session.result + cumResults;
         cumResults = session.cumResult;
         session.graphDate = currDate;
+        cHours = cHours + ((currDate - startDate)/3600000);
+        cBB = cBB + (session.result / Number(bb));
         minDate = Math.min(minDate,currDate);
         maxDate = Math.max(maxDate,currDate);
       });
+      setCumResultsState(cumResults);
+      setCumHours(cHours);
+      setCumBB(cBB);
     },[sessions])
+
     const formatXAxis = (tickFormat: number) => {
       const curr = new Date(tickFormat);
       const dd = String(curr.getDate()).padStart(2, '0');
@@ -102,15 +117,59 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'r
             </ul>
           </div>
          </TabsContent>
+         
          <TabsContent value="stats">
-          <LineChart width={500} height={500} data={sessions}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="graphDate" type="number" scale={'time'} domain={[minDate, maxDate]} tickFormatter={(tick) => formatXAxis(tick)}/>
-            <YAxis />
-            <Tooltip labelFormatter={(tick) => formatXAxis(tick)} />
-            <Legend />
-            <Line type="monotone" dataKey="cumResult" stroke="#8884d8" activeDot={{ r: 8 }} />
-          </LineChart>
+         <div className='grid grid-cols-3'>
+            <div className='col-span-2 py-1'>
+            <ResponsiveContainer width="100%" height={600}>
+              <LineChart  data={sessions}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="graphDate" type="number" scale={'time'} domain={[minDate, maxDate]} tickFormatter={(tick) => formatXAxis(tick)}/>
+                <YAxis />
+                <Tooltip labelFormatter={(tick) => formatXAxis(tick)} />
+                <Legend />
+                <Line type="monotone" dataKey="cumResult" name="Total Profit" stroke="#8884d8" activeDot={{ r: 8 }} />
+              </LineChart>
+            </ResponsiveContainer>
+            </div>
+            <div className='py-2.5'>
+              <div className='ring-2 w-full text-center'>
+                <Label className='font-bold'>Total Profit: </Label>
+                <br></br>
+                ${cumResultsState.toLocaleString()}
+              </div>
+              <div className='ring-2 w-full text-center'>
+                <Label className='font-bold'>Total BBs Won: </Label>
+                <br></br>
+                {cumBB.toFixed(2)}
+              </div>
+              <div className='ring-2 w-full text-center'>
+                <Label className='font-bold'>Total Hours: </Label>
+                <br></br>
+                {cumHours}
+              </div>
+              <div className='ring-2 w-full text-center'>
+                <Label className='font-bold'>Win Rate Per Hour: </Label>
+                <br></br>
+                ${(cumResultsState/cumHours).toLocaleString()}
+              </div>
+              <div className='ring-2 w-full text-center'>
+                <Label className='font-bold'>Win Rate Per Session: </Label>
+                <br></br>
+                ${(cumResultsState/sessions.length).toLocaleString()}
+              </div>
+              <div className='ring-2 w-full text-center'>
+                <Label className='font-bold'>BB Per Hour: </Label>
+                <br></br>
+                {(cumBB / cumHours).toFixed(2)}
+              </div>
+              <div className='ring-2 w-full text-center'>
+                <Label className='font-bold'>Estimated Hands: </Label>
+                <br></br>
+                {Math.floor(cumHours * 25)}
+              </div>
+            </div>
+          </div>
          </TabsContent>
          </Tabs>
          </div>
