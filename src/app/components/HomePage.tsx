@@ -13,9 +13,9 @@ import { Label } from '@radix-ui/react-label';
      const [isCreateSessionModalOpen, setIsCreateSessionModalOpen] = useState(false);
      let [minDate] = useState(new Date(Date.now()).getTime());
      let [maxDate] = useState(0);
-     let [cumResultsState, setCumResultsState] = useState(0);
-     let [cumHours, setCumHours] = useState(0);
-     let [cumBB, setCumBB] = useState(0);
+     const [cumResultsState, setCumResultsState] = useState(0);
+     const [cumHours, setCumHours] = useState(0);
+     const [cumBB, setCumBB] = useState(0);
     
     
 
