@@ -45,7 +45,6 @@ import {
   const [newSessionLocation, setNewSessionLocation] = useState('');
   const editSession = () => {
     if(session){
-      console.log(newSessionGameType)
       const newSessionItem: SessionItem = {
         id: session.id,
         stime: date12Start!,
@@ -75,8 +74,8 @@ import {
     setNewSessionGameType(session.type);
     setNewSessionLocation(session.location);
     setNewSessionStakes(session.stakes);
-    setDate12Start(session.stime);
-    setDate12End(session.etime);
+    setDate12Start(new Date(session.stime!));
+    setDate12End(new Date(session.etime!));
   }
     return (!session ? null :
     (<Card>

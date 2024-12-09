@@ -29,7 +29,10 @@ import { Label } from '@radix-ui/react-label';
 
     const handleCloseModalAdd = (session: SessionItem) => {
       setIsCreateSessionModalOpen(false);
+      console.log(session)
       sessions.push(session)
+      updateSessionData()
+      //sessions.sort((a, b) => a.etime.getTime() - b.etime.getTime());
     }
 
      useEffect(() => {
@@ -38,26 +41,9 @@ import { Label } from '@radix-ui/react-label';
       );
     }, []);
 
+
     useEffect(() => {
-      let cumResults = 0;
-      let cHours = 0;
-      let cBB = 0;
-      sessions.toReversed().map((session) => {
-        const bb = session.stakes.split("/").toReversed()[0]
-        const currDate = new Date(session.etime).getTime();
-        const startDate = new Date(session.stime).getTime();
-        session.result = session.cash - session.buy;
-        session.cumResult = session.result + cumResults;
-        cumResults = session.cumResult;
-        session.graphDate = currDate;
-        cHours = cHours + ((currDate - startDate)/3600000);
-        cBB = cBB + (session.result / Number(bb));
-        minDate = Math.min(minDate,currDate);
-        maxDate = Math.max(maxDate,currDate);
-      });
-      setCumResultsState(cumResults);
-      setCumHours(cHours);
-      setCumBB(cBB);
+      updateSessionData()
     },[sessions])
 
     const formatXAxis = (tickFormat: number) => {
@@ -67,8 +53,30 @@ import { Label } from '@radix-ui/react-label';
       const yyyy = curr.getFullYear();
       
       return mm + '/' + dd + '/' + yyyy;
-      
-    };
+    }
+
+      const updateSessionData = () => {
+        let cumResults = 0;
+        let cHours = 0;
+        let cBB = 0;
+        sessions.toReversed().map((session) => {
+          const bb = session.stakes.split("/").toReversed()[0]
+          const currDate = new Date(session.etime).getTime();
+          const startDate = new Date(session.stime).getTime();
+          session.result = session.cash - session.buy;
+          session.cumResult = session.result + cumResults;
+          cumResults = session.cumResult;
+          session.graphDate = currDate;
+          cHours = cHours + ((currDate - startDate)/3600000);
+          cBB = cBB + (session.result / Number(bb));
+          minDate = Math.min(minDate,currDate);
+          maxDate = Math.max(maxDate,currDate);
+        });
+        setCumResultsState(cumResults);
+        setCumHours(cHours);
+        setCumBB(cBB);
+      } ;
+
      return (
        <div >
         <div className={isCreateSessionModalOpen ? 'blur':''}>
