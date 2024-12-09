@@ -5,7 +5,6 @@ import { SessionItem } from '@/app/interfaces/sessionItem';
 export async function getData() {
     const sql = neon(process.env.DATABASE_URL!);
     const response = await sql`SELECT version()`;
-    console.log(response);
 }
 
 export async function postPokerSessionData(session: SessionItem){
@@ -29,7 +28,7 @@ export async function getSessionDataById(id: string){
 export async function editSessionData(session: SessionItem){
     const sql = neon(process.env.DATABASE_URL!);
     await sql`update poker_sessions set buy = ${session.buy}, cash = ${session.cash},
-    stime = ${session.stime}, etime = ${session.etime}, stakes = ${session.stakes}, location = ${session.location} where id = ${session.id}`; 
+    stime = ${session.stime}, etime = ${session.etime}, stakes = ${session.stakes}, location = ${session.location}, type =${session.type} where id = ${session.id}`; 
 }
 
 export async function deleteSessionDataById(id: string){

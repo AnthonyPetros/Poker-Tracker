@@ -19,38 +19,15 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-const stakes = [
-  {
-    value: "1/2",
-    label: "1/2",
-  },
-  {
-    value: "1/3",
-    label: "1/3",
-  },
-  {
-    value: "2/5",
-    label: "2/5",
-  },
-  {
-    value: "5/5",
-    label: "5/5",
-  },
-  {
-    value: "5/10",
-    label: "5/10",
-  },
-]
-
 interface props {
     onChange?: (stakes: string) => void;
     items: {value:string,label:string}[];
+    currVal?: string;
   }
   
-const StakesPicker: React.FC<props> = ({ onChange, items }) => {
+const StakesPicker: React.FC<props> = ({ onChange, items, currVal }) => {
   const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState("")
-
+  const [value, setValue] = React.useState(currVal)
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -58,15 +35,15 @@ const StakesPicker: React.FC<props> = ({ onChange, items }) => {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="w-full justify-between"
         >
           {value
-            ? stakes.find((stake) => stake.value === value)?.label
+            ? items.find((stake) => stake.value === value)?.label
             : "Select..."}
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="w-full p-0">
         <Command>
           <CommandInput placeholder="Search" className="h-9" />
           <CommandList>

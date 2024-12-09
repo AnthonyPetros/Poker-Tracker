@@ -8,6 +8,9 @@ import Link from 'next/link';
 import { DateTimePicker } from '@/components/ui/dateTimePicker';
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
+import StakesPicker from "../components/Custom/StakesPicker";
+import {stakesConstants, gameTypeConstants, locationConstants} from '../constants/comboConstants';
+
 
 import {
   Card,
@@ -42,6 +45,7 @@ import {
   const [newSessionLocation, setNewSessionLocation] = useState('');
   const editSession = () => {
     if(session){
+      console.log(newSessionGameType)
       const newSessionItem: SessionItem = {
         id: session.id,
         stime: date12Start!,
@@ -107,17 +111,17 @@ import {
             <DateTimePicker hourCycle={12} value={date12End} onChange={setDate12End} />
           </div>
           <div>
-            <Label htmlFor="stakes">Stakes:</Label>
-            <Textarea id="stakes" className='h-10' value={newSessionStakes} placeholder="What Stakes were played" onChange={(e) => setNewSessionStakes(e.target.value)}></Textarea>
-          </div>
-          <div>
-            <Label htmlFor="game">Game Type:</Label>
-            <Textarea id="game" className='h-10' value={newSessionGameType} placeholder="What Game was played" onChange={(e) => setNewSessionGameType(e.target.value)}></Textarea>
-          </div>
-          <div>
-            <Label htmlFor="location">Location:</Label>
-            <Textarea id="location" className='h-10' value = {newSessionLocation} placeholder="Where was this played" onChange={(e) => setNewSessionLocation(e.target.value)}></Textarea>
-          </div>
+          <Label htmlFor="stakes">Stakes:</Label>
+          <StakesPicker onChange={setNewSessionStakes} items={stakesConstants} currVal={newSessionStakes}></StakesPicker>
+        </div>
+        <div>
+          <Label htmlFor="game">Game Type:</Label>
+          <StakesPicker onChange={setNewSessionGameType} items={gameTypeConstants} currVal={newSessionGameType}></StakesPicker>
+        </div>
+        <div>
+        <Label htmlFor="location">Location:</Label>
+        <StakesPicker onChange={setNewSessionLocation} items={locationConstants} currVal={newSessionLocation}></StakesPicker>
+        </div>
         
         </CardContent>
         <CardFooter>

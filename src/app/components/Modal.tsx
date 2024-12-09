@@ -15,7 +15,7 @@ import { Label } from "@/components/ui/label"
 import {postPokerSessionData} from "@/lib/sessionData";
 import { SessionItem } from '../interfaces/sessionItem';
 import { v4 } from "uuid";
-import stakesConstants from '../constants/comboConstants';
+import {stakesConstants, gameTypeConstants, locationConstants} from '../constants/comboConstants';
 import StakesPicker from "./Custom/StakesPicker"
 
 
@@ -94,11 +94,11 @@ const Modal: React.FC<ModalProps> = ({isOpen, onClose, handleCloseModalAdd}) => 
         </div>
         <div>
           <Label htmlFor="game">Game Type:</Label>
-          <Textarea id="game" className='h-10' placeholder="What Game was played" onChange={(e) => setNewSessionGameType(e.target.value)}></Textarea>
+          <StakesPicker onChange={setNewSessionGameType} items={gameTypeConstants}></StakesPicker>
         </div>
         <div>
-          <Label htmlFor="location">Location:</Label>
-          <Textarea id="location" className='h-10' placeholder="Where was this played" onChange={(e) => setNewSessionLocation(e.target.value)}></Textarea>
+        <Label htmlFor="location">Location:</Label>
+        <StakesPicker onChange={setNewSessionLocation} items={locationConstants}></StakesPicker>
         </div>
       
       </CardContent>
