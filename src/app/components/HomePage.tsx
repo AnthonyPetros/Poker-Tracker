@@ -90,7 +90,9 @@ import { Label } from '@radix-ui/react-label';
             <h1 className="text-3xl font-bold underline flex flex-row  justify-center">Poker Bankroll Tracker</h1>
             
             <div className='flex flex-row  justify-center'>
-              <button disabled={isCreateSessionModalOpen} className='my-2 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded' onClick={handleOpenModal}>Add Session</button>
+              <button disabled={isCreateSessionModalOpen} className='m-2 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded' onClick={handleOpenModal}>Add Session</button>
+              <button disabled={isCreateSessionModalOpen} className='m-2 bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded' onClick={handleOpenModal}>Filter Sessions</button>
+
             </div>
             
             <ul className='my-4'>
@@ -98,25 +100,27 @@ import { Label } from '@radix-ui/react-label';
                   <li className='my-3' key={session.id} >
                     <Link href={{pathname:'/session', query: { id: session.id }}}>
                       <div className='flex flex-row  justify-center'>
-                        <div className=' hover:ring-4 ring-offset-2 ring-2 w-1/2 rounded'>
-                          <span className={(session.cash - session.buy)>=0  ? 'text-green-500 font-bold px-4' : 'text-red-500 font-bold px-4' }>
-                            Result: {session.cash - session.buy}
-                          </span>
-                          <span className='px-4'>
-                            Buy In: {session.buy}
-                          </span>
-                          <span className='px-4'>
-                            Cash Out: {session.cash}
-                          </span>
-                          <span className='px-4'>
-                            Location: {session.location}
-                          </span>
-                          <span className='px-4'>
-                            Stakes: {session.stakes}
-                          </span>
-                          <span className='px-4'>
-                            Game Type: {session.type}
-                          </span>
+                        <div className=' hover:ring-4 ring-offset-2 ring-2 w-3/5 rounded'>
+                          <div className='grid grid-cols-3'>
+                            <span className={(session.cash - session.buy)>=0  ? 'text-green-500 font-bold px-4' : 'text-red-500 font-bold px-4' }>
+                              Result: {session.cash - session.buy}
+                            </span>
+                            <span className='px-4'>
+                              Buy In: {session.buy}
+                            </span>
+                            <span className='px-4'>
+                              Cash Out: {session.cash}
+                            </span>
+                            <span className='px-4'>
+                              Location: {session.location}
+                            </span>
+                            <span className='px-4'>
+                              Stakes: {session.stakes}
+                            </span>
+                            <span className='px-4'>
+                              Game Type: {session.type}
+                            </span>
+                          </div>
                       </div>
                     </div>
                     </Link>
@@ -132,8 +136,8 @@ import { Label } from '@radix-ui/react-label';
             <ResponsiveContainer width="100%" height={600}>
               <LineChart  data={sessions}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="graphDate" type="number" scale={'time'} domain={[minDate, maxDate]} tickFormatter={(tick) => formatXAxis(tick)}/>
-                <YAxis />
+                <XAxis dataKey="graphDate" type="number"  scale={'time'} domain={[minDate, maxDate]} tickFormatter={(tick) => formatXAxis(tick)}/>
+                <YAxis label={{ value: 'Profit', angle: -90, position: 'insideLeft' }}/>
                 <Tooltip labelFormatter={(tick) => formatXAxis(tick)} />
                 <Legend />
                 <Line type="monotone" dataKey="cumResult" name="Total Profit" stroke="#8884d8" activeDot={{ r: 8 }} />
@@ -154,7 +158,7 @@ import { Label } from '@radix-ui/react-label';
               <div className='ring-2 w-full text-center'>
                 <Label className='font-bold'>Total Hours: </Label>
                 <br></br>
-                {cumHours}
+                {cumHours.toFixed(2)}
               </div>
               <div className='ring-2 w-full text-center'>
                 <Label className='font-bold'>Win Rate Per Hour: </Label>
