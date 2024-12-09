@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label"
 import {postPokerSessionData} from "@/lib/sessionData";
 import { SessionItem } from '../interfaces/sessionItem';
 import { v4 } from "uuid";
+import stakesConstants from '../constants/comboConstants';
 import StakesPicker from "./Custom/StakesPicker"
 
 
@@ -25,7 +26,6 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> = ({isOpen, onClose, handleCloseModalAdd}) => {
- 
   const [date12Start, setDate12Start] = useState<Date | undefined>(undefined);
   const [date12End, setDate12End] = useState<Date | undefined>(undefined);
   const [newSessionBuyIn, setNewSessionBuyIn] = useState('');
@@ -48,7 +48,7 @@ const Modal: React.FC<ModalProps> = ({isOpen, onClose, handleCloseModalAdd}) => 
         cumResult: 0,
       };
       postPokerSessionData(newSessionItem);
-      setNewSessionBuyIn('');
+      setNewSessionBuyIn('');  
       setNewSessionCashOut('');
       setNewSessionStakes('');
       setNewSessionGameType('');
@@ -57,10 +57,9 @@ const Modal: React.FC<ModalProps> = ({isOpen, onClose, handleCloseModalAdd}) => 
       setDate12Start(undefined);
       handleCloseModalAdd(newSessionItem);
   };
-  
   if (!isOpen) return null;
   return (
-   <Card>
+   <Card className='w-2/3'>
     <CardHeader className='grid grid-cols-2 bg-blue-300'>     
       <CardTitle className='py-2'>Add a new session</CardTitle>
       <div className="justify-self-end">
@@ -91,7 +90,7 @@ const Modal: React.FC<ModalProps> = ({isOpen, onClose, handleCloseModalAdd}) => 
         </div>
         <div>
           <Label htmlFor="stakes">Stakes:</Label>
-          <StakesPicker onChange={setNewSessionStakes}></StakesPicker>
+          <StakesPicker onChange={setNewSessionStakes} items={stakesConstants}></StakesPicker>
         </div>
         <div>
           <Label htmlFor="game">Game Type:</Label>

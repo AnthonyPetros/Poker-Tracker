@@ -43,7 +43,6 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'r
         session.graphDate = currDate;
         minDate = Math.min(minDate,currDate);
         maxDate = Math.max(maxDate,currDate);
-        console.log(currDate);
       });
     },[sessions])
     const formatXAxis = (tickFormat: number) => {
@@ -56,18 +55,19 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'r
       
     };
      return (
-       <div>
+       <div >
+        <div className={isCreateSessionModalOpen ? 'blur':''}>
         <Tabs defaultValue="sessions">
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger className='my-2 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded' value="stats">Stats</TabsTrigger>
-            <TabsTrigger className='my-2 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded' value="sessions">Sessions</TabsTrigger>
+            <TabsTrigger disabled={isCreateSessionModalOpen} className='my-2 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded' value="stats">Stats</TabsTrigger>
+            <TabsTrigger disabled={isCreateSessionModalOpen} className='my-2 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded' value="sessions">Sessions</TabsTrigger>
           </TabsList>
         <TabsContent value="sessions">
-          <div className={isCreateSessionModalOpen ? 'blur':''}>
+          <div >
             <h1 className="text-3xl font-bold underline flex flex-row  justify-center">Poker Bankroll Tracker</h1>
             
             <div className='flex flex-row  justify-center'>
-              <button className='my-2 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded' onClick={handleOpenModal}>Add Session</button>
+              <button disabled={isCreateSessionModalOpen} className='my-2 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded' onClick={handleOpenModal}>Add Session</button>
             </div>
             
             <ul className='my-4'>
@@ -113,10 +113,13 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'r
           </LineChart>
          </TabsContent>
          </Tabs>
-         <div className='w-2/3 justify-self-center'>
-          <Modal  isOpen={isCreateSessionModalOpen}  onClose={handleCloseModal} handleCloseModalAdd={handleCloseModalAdd}>
-          </Modal>
+         </div>
+         <div className='flex w-full'>
+          <div className ={isCreateSessionModalOpen ? ' absolute flex justify-center items-center inset-0':''}>
+              <Modal  isOpen={isCreateSessionModalOpen}  onClose={handleCloseModal} handleCloseModalAdd={handleCloseModalAdd}>
+              </Modal>
           </div>
+        </div>
        </div>
      );
    };

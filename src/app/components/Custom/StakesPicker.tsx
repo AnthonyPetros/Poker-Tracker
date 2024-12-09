@@ -44,9 +44,10 @@ const stakes = [
 
 interface props {
     onChange?: (stakes: string) => void;
+    items: {value:string,label:string}[];
   }
   
-const StakesPicker: React.FC<props> = ({ onChange }) => {
+const StakesPicker: React.FC<props> = ({ onChange, items }) => {
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState("")
 
@@ -61,17 +62,17 @@ const StakesPicker: React.FC<props> = ({ onChange }) => {
         >
           {value
             ? stakes.find((stake) => stake.value === value)?.label
-            : "Select Stake..."}
+            : "Select..."}
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Search Stakes" className="h-9" />
+          <CommandInput placeholder="Search" className="h-9" />
           <CommandList>
             <CommandEmpty>No framework found.</CommandEmpty>
             <CommandGroup>
-              {stakes.map((stake) => (
+              {items.map((stake) => (
                 <CommandItem
                   key={stake.value}
                   value={stake.value}
