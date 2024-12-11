@@ -6,11 +6,13 @@ import { SessionItem } from '../interfaces/sessionItem';
 import Link from 'next/link';
 import { ResponsiveContainer ,LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { Label } from '@radix-ui/react-label';
+import FilterModal from './FilterModal';
 
 
    const HomePage = () => {
      const [sessions, setSessions] = useState<SessionItem[]>([]);
      const [isCreateSessionModalOpen, setIsCreateSessionModalOpen] = useState(false);
+     const [isFilterModalOpen, setIsFilterOpen] = useState(false);
      let [minDate] = useState(new Date(Date.now()).getTime());
      let [maxDate] = useState(0);
      const [cumResultsState, setCumResultsState] = useState(0);
@@ -27,9 +29,16 @@ import { Label } from '@radix-ui/react-label';
       setIsCreateSessionModalOpen(false);
     };
 
+    const handleOpenFilterModal = () => {
+      setIsFilterOpen(true);
+    };
+  
+    const handleCloseFilterModal = () => {
+      setIsFilterOpen(false);
+    };
+
     const handleCloseModalAdd = (session: SessionItem) => {
       setIsCreateSessionModalOpen(false);
-      console.log(session)
       sessions.push(session)
       updateSessionData()
       //sessions.sort((a, b) => a.etime.getTime() - b.etime.getTime());
@@ -79,19 +88,19 @@ import { Label } from '@radix-ui/react-label';
 
      return (
        <div >
-        <div className={isCreateSessionModalOpen ? 'blur':''}>
+        <div className={isCreateSessionModalOpen || isFilterModalOpen ? 'blur':''}>
         <Tabs defaultValue="sessions">
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger disabled={isCreateSessionModalOpen} className='my-2 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded' value="stats">Stats</TabsTrigger>
-            <TabsTrigger disabled={isCreateSessionModalOpen} className='my-2 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded' value="sessions">Sessions</TabsTrigger>
+            <TabsTrigger disabled={isCreateSessionModalOpen || isFilterModalOpen} className='my-2 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded' value="stats">Stats</TabsTrigger>
+            <TabsTrigger disabled={isCreateSessionModalOpen || isFilterModalOpen} className='my-2 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded' value="sessions">Sessions</TabsTrigger>
           </TabsList>
         <TabsContent value="sessions">
           <div >
             <h1 className="text-3xl font-bold underline flex flex-row  justify-center">Poker Bankroll Tracker</h1>
             
             <div className='flex flex-row  justify-center'>
-              <button disabled={isCreateSessionModalOpen} className='m-2 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded' onClick={handleOpenModal}>Add Session</button>
-              <button disabled={isCreateSessionModalOpen} className='m-2 bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded' onClick={handleOpenModal}>Filter Sessions</button>
+              <button disabled={isCreateSessionModalOpen || isFilterModalOpen} className='m-2 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded' onClick={handleOpenModal}>Add Session</button>
+              <button disabled={isCreateSessionModalOpen || isFilterModalOpen} className='m-2 bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded' onClick={handleOpenFilterModal}>Filter Sessions</button>
 
             </div>
             
@@ -189,6 +198,10 @@ import { Label } from '@radix-ui/react-label';
           <div className ={isCreateSessionModalOpen ? ' absolute flex justify-center items-center inset-0':''}>
               <Modal  isOpen={isCreateSessionModalOpen}  onClose={handleCloseModal} handleCloseModalAdd={handleCloseModalAdd}>
               </Modal>
+          </div>
+          <div className ={isFilterModalOpen ? ' absolute flex justify-center items-center inset-0':''}>
+              <FilterModal  isOpen={isFilterModalOpen}  onClose={handleCloseFilterModal} handleCloseModalAdd={handleCloseModalAdd}>
+              </FilterModal>
           </div>
         </div>
        </div>
