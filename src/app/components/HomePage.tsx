@@ -12,7 +12,8 @@ import { FilterItem } from '../interfaces/filterItem';
 
    const HomePage = () => {
      const [sessions, setSessions] = useState<SessionItem[]>([]);
-     const [filterSessions, setFilterSessions] = useState<SessionItem[]>([]);
+     let [filterSessions, setFilterSessions] = useState<SessionItem[]>([]);
+     let [filterSave, setFilterSave] = useState<FilterItem>();
      const [isCreateSessionModalOpen, setIsCreateSessionModalOpen] = useState(false);
      const [isFilterModalOpen, setIsFilterOpen] = useState(false);
      let [minDate] = useState(new Date(Date.now()).getTime());
@@ -46,12 +47,23 @@ import { FilterItem } from '../interfaces/filterItem';
       //sessions.sort((a, b) => a.etime.getTime() - b.etime.getTime());
     }
 
-    const handleAddFilter = (filter: FilterItem) => {
-      console.log("123")
-      sessions.forEach((session) => {
-        filterSessions.push(session);
-      });
-      //sessions.sort((a, b) => a.etime.getTime() - b.etime.getTime());
+    const handleAddFilter = (filter: FilterItem | undefined) => {
+      setFilterSave(filter);
+      filterSessions.length = 0
+      if(filter != undefined){
+        sessions.forEach((session) => {
+          console.log(filterSessions)
+          if (new Date(filter.stime).getTime() < new Date(session.etime).getTime() && new Date(session.etime).getTime() < new Date(filter.etime).getTime()){
+            filterSessions.push(session);
+          }
+          
+        });
+      } else {
+        sessions.forEach((session) => {
+          filterSessions.push(session);
+        });
+      }
+      handleCloseFilterModal();
     }
 
      useEffect(() => {
@@ -63,6 +75,7 @@ import { FilterItem } from '../interfaces/filterItem';
 
     useEffect(() => {
       updateSessionData()
+      handleAddFilter(filterSave)
     },[sessions])
 
     const formatXAxis = (tickFormat: number) => {
