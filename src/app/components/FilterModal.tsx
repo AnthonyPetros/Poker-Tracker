@@ -12,50 +12,32 @@ import { DateTimePicker } from '@/components/ui/dateTimePicker';
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 
-import {postPokerSessionData} from "@/lib/sessionData";
-import { SessionItem } from '../interfaces/sessionItem';
-import { v4 } from "uuid";
 import {stakesConstants, gameTypeConstants, locationConstants} from '../constants/comboConstants';
 import StakesPicker from "./Custom/StakesPicker"
+import { FilterItem } from '../interfaces/filterItem';
 
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  handleCloseModalAdd: (session: SessionItem) => void;
+  handleCloseModalAdd: (filter: FilterItem) => void;
 }
 
 const FilterModal: React.FC<ModalProps> = ({isOpen, onClose, handleCloseModalAdd}) => {
   const [date12Start, setDate12Start] = useState<Date | undefined>(undefined);
   const [date12End, setDate12End] = useState<Date | undefined>(undefined);
-  const [newSessionBuyIn, setNewSessionBuyIn] = useState('');
-  const [newSessionCashOut, setNewSessionCashOut] = useState('');
   const [newSessionStakes, setNewSessionStakes] = useState('');
   const [newSessionGameType, setNewSessionGameType] = useState('');
   const [newSessionLocation, setNewSessionLocation] = useState('');
-  const addSession = () => {
-      const newSessionItem: SessionItem = {
-        id: v4(),
-        stime: date12Start!,
-        etime: date12End!,
-        buy:parseInt(newSessionBuyIn),
-        cash:parseInt(newSessionCashOut),
-        stakes:newSessionStakes,
-        type:newSessionGameType,
-        location:newSessionLocation,
-        result: 0,
-        graphDate: 0,
-        cumResult: 0,
-      };
-      postPokerSessionData(newSessionItem);
-      setNewSessionBuyIn('');  
-      setNewSessionCashOut('');
-      setNewSessionStakes('');
-      setNewSessionGameType('');
-      setNewSessionLocation('');
-      setDate12End(undefined);
-      setDate12Start(undefined);
-      handleCloseModalAdd(newSessionItem);
+  const addFilter = () => {
+    const filter: FilterItem = {
+      stime: date12Start!,
+      etime: date12End!,
+      stakes:[newSessionStakes],
+      type:[newSessionGameType],
+      location:[newSessionLocation],
+    };
+    handleCloseModalAdd(filter);
   };
   if (!isOpen) return null;
   return (
@@ -73,15 +55,7 @@ const FilterModal: React.FC<ModalProps> = ({isOpen, onClose, handleCloseModalAdd
       
       <CardContent className='grid grid-cols-2 gap-1.5'>
         <div>
-          <Label htmlFor="buyIn">Buy In:</Label>
-          <Textarea id="buyIn" className='h-10'  placeholder="Enter how much you bought in for." onChange={(e) => setNewSessionBuyIn(e.target.value)}></Textarea>
-        </div>
-        <div>
-          <Label htmlFor="cashOut">Cashout:</Label>
-          <Textarea id="cashOut" className='h-10' placeholder="Enter how much you cashed out for." onChange={(e) => setNewSessionCashOut(e.target.value)}></Textarea>
-        </div>
-        <div>
-          <span>Start Time:</span>
+          <span>Between Start Time:</span>
           <DateTimePicker hourCycle={12} value={date12Start} onChange={setDate12Start} />
         </div>
         <div>
@@ -103,7 +77,7 @@ const FilterModal: React.FC<ModalProps> = ({isOpen, onClose, handleCloseModalAdd
       
       </CardContent>
       <CardFooter>
-      <button className='my-2 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded' onClick={addSession} >Add Session</button>
+      <button className='my-2 bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded' onClick={addFilter} >Add Session</button>
       </CardFooter>
    </Card>
       

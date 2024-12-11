@@ -7,10 +7,12 @@ import Link from 'next/link';
 import { ResponsiveContainer ,LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { Label } from '@radix-ui/react-label';
 import FilterModal from './FilterModal';
+import { FilterItem } from '../interfaces/filterItem';
 
 
    const HomePage = () => {
      const [sessions, setSessions] = useState<SessionItem[]>([]);
+     const [filterSessions, setFilterSessions] = useState<SessionItem[]>([]);
      const [isCreateSessionModalOpen, setIsCreateSessionModalOpen] = useState(false);
      const [isFilterModalOpen, setIsFilterOpen] = useState(false);
      let [minDate] = useState(new Date(Date.now()).getTime());
@@ -41,6 +43,14 @@ import FilterModal from './FilterModal';
       setIsCreateSessionModalOpen(false);
       sessions.push(session)
       updateSessionData()
+      //sessions.sort((a, b) => a.etime.getTime() - b.etime.getTime());
+    }
+
+    const handleAddFilter = (filter: FilterItem) => {
+      console.log("123")
+      sessions.forEach((session) => {
+        filterSessions.push(session);
+      });
       //sessions.sort((a, b) => a.etime.getTime() - b.etime.getTime());
     }
 
@@ -105,7 +115,7 @@ import FilterModal from './FilterModal';
             </div>
             
             <ul className='my-4'>
-              {sessions.map((session) => (  
+              {filterSessions.map((session) => (  
                   <li className='my-3' key={session.id} >
                     <Link href={{pathname:'/session', query: { id: session.id }}}>
                       <div className='flex flex-row  justify-center'>
@@ -200,7 +210,7 @@ import FilterModal from './FilterModal';
               </Modal>
           </div>
           <div className ={isFilterModalOpen ? ' absolute flex justify-center items-center inset-0':''}>
-              <FilterModal  isOpen={isFilterModalOpen}  onClose={handleCloseFilterModal} handleCloseModalAdd={handleCloseModalAdd}>
+              <FilterModal  isOpen={isFilterModalOpen}  onClose={handleCloseFilterModal} handleCloseModalAdd={handleAddFilter}>
               </FilterModal>
           </div>
         </div>
